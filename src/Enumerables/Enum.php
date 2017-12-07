@@ -1,6 +1,6 @@
 <?php
 
-namespace Digbang\Utils;
+namespace Digbang\Utils\Enumerables;
 
 abstract class Enum extends EnumBase
 {

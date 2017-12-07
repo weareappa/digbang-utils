@@ -1,5 +1,5 @@
 <?php
-namespace Digbang\Utils;
+namespace Digbang\Utils\Enumerables;
 
 
 abstract class EnumBase implements \JsonSerializable
@@ -13,12 +13,10 @@ abstract class EnumBase implements \JsonSerializable
 
     abstract public function __toString();
 
-
     public function jsonSerialize()
     {
         return $this->getValue();
     }
-
 
     public static function getAllValues(): array
     {
@@ -26,7 +24,6 @@ abstract class EnumBase implements \JsonSerializable
 
         return array_values($oClass->getConstants());
     }
-
 
     public static function getAllValuesTranslated(): array
     {
@@ -41,7 +38,6 @@ abstract class EnumBase implements \JsonSerializable
         );
     }
 
-
     /**
      * This requires the Laravel trans function so don't use it outside Laravel "context".
      */
@@ -52,7 +48,6 @@ abstract class EnumBase implements \JsonSerializable
 
         return (string)trans("enum.$oClass.$value");
     }
-
 
     /**
      * Returns all values as key and the constant name as value

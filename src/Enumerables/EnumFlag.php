@@ -1,5 +1,5 @@
 <?php
-namespace Digbang\Utils;
+namespace Digbang\Utils\Enumerables;
 
 /**
  * Constant definition example:
@@ -89,7 +89,6 @@ abstract class EnumFlag extends EnumBase
         return $current;
     }
 
-
     /**
      * Returns a new EnumFlag with provided flags added.
      */
@@ -104,7 +103,6 @@ abstract class EnumFlag extends EnumBase
 
         return $new;
     }
-
 
     /**
      * Returns a new EnumFlag with provided flags removed.
