@@ -28,7 +28,6 @@ abstract class Enum extends EnumBase
         return $this->value;
     }
 
-
     /**
      * @param string|null $name
      *
@@ -69,7 +68,6 @@ abstract class Enum extends EnumBase
         return ! $this->isAny($names);
     }
 
-
     /**
      * @return Enum[]
      */
@@ -79,7 +77,6 @@ abstract class Enum extends EnumBase
             return new static($value);
         }, array_filter(static::getAllValues()));
     }
-
 
     /**
      * @param string|null $name

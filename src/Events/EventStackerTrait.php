@@ -9,15 +9,6 @@ class EventStackerTrait
     /** @var array */
     protected $eventStack;
 
-    final protected function pushEvent($event): void
-    {
-        if (!is_object($event)) {
-            throw new \InvalidArgumentException('Event must be an object');
-        }
-
-        $this->eventStack[] = $event;
-    }
-
     public function fireEvents(Dispatcher $dispatcher): void
     {
         foreach ($this->eventStack as $event) {
@@ -28,5 +19,14 @@ class EventStackerTrait
     public function pullEvent()
     {
         return array_shift($this->eventStack);
+    }
+
+    final protected function pushEvent($event): void
+    {
+        if (! is_object($event)) {
+            throw new \InvalidArgumentException('Event must be an object');
+        }
+
+        $this->eventStack[] = $event;
     }
 }

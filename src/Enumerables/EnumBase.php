@@ -1,17 +1,17 @@
 <?php
-namespace Digbang\Utils\Enumerables;
 
+namespace Digbang\Utils\Enumerables;
 
 abstract class EnumBase implements \JsonSerializable
 {
+    abstract public function __toString();
+
     abstract public function getValue();
 
     /**
      * @return EnumBase[]
      */
     abstract public static function getAllAsObjects(): array;
-
-    abstract public function __toString();
 
     public function jsonSerialize()
     {
@@ -46,11 +46,11 @@ abstract class EnumBase implements \JsonSerializable
         $oClass = get_called_class();
         $value = $this->getValue();
 
-        return (string)trans("enum.$oClass.$value");
+        return (string) trans("enum.$oClass.$value");
     }
 
     /**
-     * Returns all values as key and the constant name as value
+     * Returns all values as key and the constant name as value.
      */
     public static function getAllInversed(): array
     {
@@ -65,7 +65,7 @@ abstract class EnumBase implements \JsonSerializable
     }
 
     /**
-     * Count of all possible values
+     * Count of all possible values.
      */
     protected static function count(): int
     {
