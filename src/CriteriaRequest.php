@@ -9,25 +9,28 @@ use Illuminate\Http\Request;
 
     class UserCriteriaRequest extends CriteriaRequest
     {
-        protected $filterClass = UserFilter::class;
-        protected $sortingClass = UserSorting::class;
+       protected function getFilterClass(): string
+       {
+            return UserFilter::class;
+       }
+
+       protected function getFilterClass(): string
+       {
+            return UserSorting::class;
+       }
     }
 */
-class CriteriaRequest implements Criteria
+
+abstract class CriteriaRequest implements Criteria
 {
     /** @var Request */
     protected $request;
-    /** @var string */
-    protected $filterClass;
-    /** @var string */
-    protected $sortingClass;
     /** @var string */
     protected $sortRequestKey = 'sort';
     /** @var string */
     protected $limitRequestKey = 'limit';
     /** @var string */
     protected $pageRequestKey = 'page';
-
 
     public function __construct(Request $request)
     {
@@ -36,14 +39,14 @@ class CriteriaRequest implements Criteria
 
     public function getFilter(): Filter
     {
-        $filterClass = $this->filterClass;
+        $filterClass = $this->getFilterClass();
 
         return new $filterClass($this->request->all());
     }
 
     public function getSorting(): Sorting
     {
-        $sortingClass = $this->sortingClass;
+        $sortingClass = $this->getSortingClass();
 
         return new $sortingClass($this->request->input($this->sortRequestKey, []));
     }
@@ -52,6 +55,10 @@ class CriteriaRequest implements Criteria
     {
         return new PaginationData(
             $this->request->input($this->limitRequestKey, 10),
-            $this->request->input($this->pageRequestKey, 1));
+            $this->request->input($this->pageRequestKey, 1)
+        );
     }
+
+    abstract protected function getFilterClass(): string;
+    abstract protected function getSortingClass(): string;
 }

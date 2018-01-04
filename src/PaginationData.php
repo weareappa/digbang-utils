@@ -55,8 +55,6 @@ class PaginationData
 
     public function clone(int $limit = null, int $page = 1)
     {
-        $new = new static($limit, $page);
-
-        return $new;
+        return new static($limit, $page);
     }
 }
