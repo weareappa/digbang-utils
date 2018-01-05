@@ -22,12 +22,11 @@ class SortingTest extends TestCase
             ],
             ProductSortingStub::INVERTED => function ($direction) {
                 return [
-                    "name" => 'not ' . $direction,
+                    'name' => 'not ' . $direction,
                 ];
             },
         ];
     }
-
 
     public function test_simple()
     {
@@ -58,7 +57,7 @@ class SortingTest extends TestCase
         $applied = $sorting->get($this->sortFields);
 
         static::assertEquals([
-            "name" => 'not desc',
+            'name' => 'not desc',
         ],
             $applied);
     }
@@ -77,7 +76,7 @@ class SortingTest extends TestCase
             "{$this->alias}.brand.name" => 'desc',
             "{$this->alias}.other" => 'asc',
             "{$this->alias}.name" => 'asc',
-            "name" => 'not asc',
+            'name' => 'not asc',
         ],
             $applied);
     }
