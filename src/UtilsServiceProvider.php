@@ -6,7 +6,6 @@ use Digbang\Utils\Doctrine\Mappings\Embeddables\EnumFlagMapping;
 use Digbang\Utils\Doctrine\Mappings\Embeddables\EnumMapping;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Config\Repository as Config;
 use Illuminate\Support\ServiceProvider;
 use LaravelDoctrine\Fluent\FluentDriver;
 use LaravelDoctrine\ORM\Configuration\MetaData\MetaDataManager;
@@ -18,7 +17,7 @@ class UtilsServiceProvider extends ServiceProvider
         $this->registerDoctrineMappings($entityManager, $metadata);
     }
 
-    public function register(Config $config)
+    public function register()
     {
     }
 
