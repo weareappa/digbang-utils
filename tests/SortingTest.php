@@ -14,13 +14,13 @@ class SortingTest extends TestCase
         $this->alias = 'alias';
 
         $this->sortFields = [
-            SortingStub::NAME => "{$this->alias}.name",
-            SortingStub::BRAND => "{$this->alias}.brand.name",
-            SortingStub::OTHER => [
+            ProductSortingStub::NAME => "{$this->alias}.name",
+            ProductSortingStub::BRAND => "{$this->alias}.brand.name",
+            ProductSortingStub::OTHER => [
                 "{$this->alias}.other",
                 "{$this->alias}.name",
             ],
-            SortingStub::INVERTED => function ($direction) {
+            ProductSortingStub::INVERTED => function ($direction) {
                 return [
                     'name' => 'not ' . $direction,
                 ];
@@ -30,7 +30,7 @@ class SortingTest extends TestCase
 
     public function test_simple()
     {
-        $sorting = new SortingStub([SortingStub::NAME => 'asc']);
+        $sorting = new ProductSortingStub([ProductSortingStub::NAME => 'asc']);
 
         $applied = $sorting->get($this->sortFields);
 
@@ -39,7 +39,7 @@ class SortingTest extends TestCase
 
     public function test_array_sort()
     {
-        $sorting = new SortingStub([SortingStub::OTHER => 'desc']);
+        $sorting = new ProductSortingStub([ProductSortingStub::OTHER => 'desc']);
 
         $applied = $sorting->get($this->sortFields);
 
@@ -52,7 +52,7 @@ class SortingTest extends TestCase
 
     public function test_function_sort()
     {
-        $sorting = new SortingStub([SortingStub::INVERTED => 'desc']);
+        $sorting = new ProductSortingStub([ProductSortingStub::INVERTED => 'desc']);
 
         $applied = $sorting->get($this->sortFields);
 
@@ -64,10 +64,10 @@ class SortingTest extends TestCase
 
     public function test_multiple_sorts()
     {
-        $sorting = new SortingStub([
-            SortingStub::BRAND => 'desc',
-            SortingStub::OTHER => 'asc',
-            SortingStub::INVERTED => 'asc',
+        $sorting = new ProductSortingStub([
+            ProductSortingStub::BRAND => 'desc',
+            ProductSortingStub::OTHER => 'asc',
+            ProductSortingStub::INVERTED => 'asc',
         ]);
 
         $applied = $sorting->get($this->sortFields);
@@ -83,7 +83,7 @@ class SortingTest extends TestCase
 
     public function test_invalid_keys_ignored()
     {
-        $sorting = new SortingStub(['not existent' => 'asc', SortingStub::BRAND => 'desc']);
+        $sorting = new ProductSortingStub(['not existent' => 'asc', ProductSortingStub::BRAND => 'desc']);
 
         $applied = $sorting->get($this->sortFields);
 
