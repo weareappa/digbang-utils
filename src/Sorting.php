@@ -43,9 +43,11 @@ class Sorting
         return $selected;
     }
 
-    /**
-     * @return string[]
-     */
+    public function getRaw(): array
+    {
+        return $this->sorts;
+    }
+
     private static function getKeys(): array
     {
         $oClass = new \ReflectionClass(get_called_class());
