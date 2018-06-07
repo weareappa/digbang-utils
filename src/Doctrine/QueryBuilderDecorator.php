@@ -25,37 +25,36 @@ class QueryBuilderDecorator extends QueryBuilder
      *    ]
      * ].
      *
-     * @param QueryBuilder $builder
      * @param Sorting $sorting
      * @param array $sortOptions
      *
-     * @return QueryBuilder
+     * @return QueryBuilderDecorator
      */
-    public function addSorting(QueryBuilder $builder, Sorting $sorting, array $sortOptions): QueryBuilder
+    public function addSorting(Sorting $sorting, array $sortOptions): QueryBuilderDecorator
     {
         foreach ($sorting->get($sortOptions) as $sortBy => $sortSense) {
-            $builder->addOrderBy($sortBy, $sortSense);
-        }
+            dump($sortBy, $sortSense);
 
-        return $builder;
+            $this->addOrderBy($sortBy, $sortSense);
+        }
+        return $this;
     }
 
     /**
      * Adds "order by" statement with raw PaginationData sorting values
      * Returns true if order by was added.
      *
-     * @param QueryBuilder $builder
      * @param Sorting $sorting
      *
-     * @return QueryBuilder
+     * @return QueryBuilderDecorator
      */
-    public function addRawSorting(QueryBuilder $builder, Sorting $sorting): QueryBuilder
+    public function addRawSorting(Sorting $sorting): QueryBuilderDecorator
     {
         foreach ($sorting->getRaw() as $sortBy => $sortSense) {
-            $builder->addOrderBy($sortBy, $sortSense);
+            $this->addOrderBy($sortBy, $sortSense);
         }
 
-        return $builder;
+        return $this;
     }
 
     /**
@@ -67,24 +66,40 @@ class QueryBuilderDecorator extends QueryBuilder
      *   'aliasJoinC' => 'aliasJoinA.fieldA',
      * ]
      *
-     * @param QueryBuilder $builder
      * @param array $joins
      * @param array|null $leftJoins
      *
-     * @return QueryBuilder
+     * @return QueryBuilderDecorator
      */
-    public function applyJoins(QueryBuilder $builder, array $joins, array $leftJoins = null): QueryBuilder
+    public function applyJoins(array $joins, array $leftJoins = null): QueryBuilderDecorator
     {
         foreach ($joins as $alias => $field) {
-            $builder->join($field, $alias);
+            $this->join($field, $alias);
         }
 
         if ($leftJoins) {
             foreach ($leftJoins as $alias => $field) {
-                $builder->leftJoin($field, $alias);
+                $this->leftJoin($field, $alias);
             }
         }
 
-        return $builder;
+        return $this;
+    }
+
+    /**
+     * Adds "andWhere's" statements for each filter.
+     *
+     * @param array $filters
+     *
+     * @return QueryBuilderDecorator
+     */
+    public function applyFilters(array $filters): QueryBuilderDecorator
+    {
+        $expr = $this->expr();
+        if (! empty($filters)) {
+            $this->where($expr->andX(...$filters));
+        }
+
+        return $this;
     }
 }
