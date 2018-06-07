@@ -33,8 +33,6 @@ class QueryBuilderDecorator extends QueryBuilder
     public function addSorting(Sorting $sorting, array $sortOptions): QueryBuilderDecorator
     {
         foreach ($sorting->get($sortOptions) as $sortBy => $sortSense) {
-            dump($sortBy, $sortSense);
-
             $this->addOrderBy($sortBy, $sortSense);
         }
         return $this;
