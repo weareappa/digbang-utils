@@ -75,7 +75,9 @@ abstract class Enum extends EnumBase
     {
         return array_map(function (?string $value) {
             return new static($value);
-        }, array_filter(static::getAllValues()));
+        }, array_filter(static::getAllValues(), function ($value) {
+            return ! \in_array($value, ['', null], true);
+        }));
     }
 
     /**
