@@ -76,7 +76,7 @@ abstract class CriteriaRequest implements Criteria
     {
         $sortingClass = $this->getSortingClass();
 
-        return new $sortingClass($this->buildSorting());
+        return new $sortingClass($this->buildSorting(), $this->getSortingDefaults());
     }
 
     public function getPaginationData(): PaginationData
@@ -94,5 +94,10 @@ abstract class CriteriaRequest implements Criteria
     protected function buildSorting(): array
     {
         return $this->request->input(static::SORT_KEY, []);
+    }
+
+    protected function getSortingDefaults(): array
+    {
+        return [];
     }
 }

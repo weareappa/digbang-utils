@@ -9,9 +9,13 @@ class Sorting
      */
     protected $sorts;
 
-    public function __construct(array $data)
+    public function __construct(array $data, array $defaults = [])
     {
         $this->sorts = array_only($data, static::getKeys());
+
+        if (empty($this->sorts)) {
+            $this->sorts = array_only($defaults, static::getKeys());
+        }
     }
 
     public function get(array $sortFields): array
