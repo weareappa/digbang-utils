@@ -46,9 +46,6 @@ abstract class EnumFlag extends EnumBase
             array_filter(static::getAllValues()));
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     public static function from(int $flags): self
     {
         return new static ($flags);

@@ -22,48 +22,30 @@ abstract class Enum extends EnumBase
         return $this->getValue() ?? '';
     }
 
-    /** @return string|null */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    /**
-     * @param string|null $name
-     *
-     * @return bool
-     */
-    public function is(string $name = null)
+    public function is(string $name = null): bool
     {
         return $this->value === $name;
     }
 
     /**
      * @param string[] $names
-     *
-     * @return bool
      */
-    public function isAny(array $names)
+    public function isAny(array $names): bool
     {
         return in_array($this->value, $names, true);
     }
 
-    /**
-     * @param string|null $name
-     *
-     * @return bool
-     */
-    public function isNot(string $name = null)
+    public function isNot(string $name = null): bool
     {
         return $this->value !== $name;
     }
 
-    /**
-     * @param array $names
-     *
-     * @return bool
-     */
-    public function isNotAny(array $names)
+    public function isNotAny(array $names): bool
     {
         return ! $this->isAny($names);
     }
@@ -81,18 +63,19 @@ abstract class Enum extends EnumBase
     }
 
     /**
-     * @param string|null $name
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return Enum|mixed
+     * @deprecated use fromString
      */
-    public static function from(string $name = null)
+    public static function from(string $name = null): Enum
+    {
+        return static::fromString($name);
+    }
+
+    public static function fromString(string $name = null): Enum
     {
         return new static ($name);
     }
 
-    private static function assert(string $name = null)
+    protected static function assert(string $name = null)
     {
         if (! in_array($name, static::getAllValues(), true)) {
             $oClass = new \ReflectionClass(get_called_class());
