@@ -13,6 +13,28 @@ class QueryBuilderDecorator extends QueryBuilder
     }
 
     /**
+     * @return QueryBuilderDecorator
+     */
+    public function select($select = null)
+    {
+        /** @var static $queryBuilder */
+        $queryBuilder = parent::select($select);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @return QueryBuilderDecorator
+     */
+    public function from($from, $alias, $indexBy = null)
+    {
+        /** @var static $queryBuilder */
+        $queryBuilder = parent::from($from, $alias, $indexBy);
+
+        return $queryBuilder;
+    }
+
+    /**
      * Adds "order by" statement if sort is found in sortOptions.
      * Returns true if order by was added.
      * sortOptions example:
