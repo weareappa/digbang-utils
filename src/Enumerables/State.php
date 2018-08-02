@@ -67,6 +67,19 @@ abstract class State extends Enum
         return static::TRANSITIONS[$this->getValue()] ?? null;
     }
 
+    /**
+     * Returns null if transition is not specified.
+     */
+    public function getPossibleTransitionsFrom(string $value): ?array
+    {
+        return static::TRANSITIONS[$value] ?? null;
+    }
+
+    public function getPossibleInitial(): array
+    {
+        return static::INITIAL;
+    }
+
     public function getLog(): array
     {
         return $this->log;
