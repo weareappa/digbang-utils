@@ -65,12 +65,12 @@ abstract class Enum extends EnumBase
     /**
      * @deprecated use fromString
      */
-    public static function from(string $name = null): Enum
+    public static function from(string $name = null)
     {
         return static::fromString($name);
     }
 
-    public static function fromString(string $name = null): Enum
+    public static function fromString(string $name = null)
     {
         return new static ($name);
     }
