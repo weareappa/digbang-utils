@@ -22,7 +22,7 @@ class StateTest extends TestCase
         $this->assertEquals(StateImplementation::STEP_1, $state->getValue());
         $newState = $state->transition(StateImplementation::STEP_2, ['key' => 'value']);
         $newState = $newState->transition(StateImplementation::STEP_3, ['key2' => 'value2']);
-        $this->assertNotEmpty(StateImplementation::STEP_2, $newState->getLog());
+        $this->assertNotEmpty($newState->getLog());
     }
 
     public function test_change_status_invalid_transition()
