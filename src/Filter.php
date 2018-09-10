@@ -21,7 +21,7 @@ abstract class Filter
     {
         $value = array_get($this->values, $key, $default);
 
-        return empty($value) ? null : $value;
+        return $this->isEmpty($value) ? null : $value;
     }
 
     public function getRaw(string $key, $default = null)
@@ -36,7 +36,7 @@ abstract class Filter
     {
         $value = $this->getRaw($key);
 
-        return empty($value) ? [] : $value;
+        return $this->isEmpty($value) ? [] : $value;
     }
 
     public function has(string $key)
@@ -46,11 +46,15 @@ abstract class Filter
 
     public function isNotEmpty(string $key)
     {
-        return ! empty($this->getRaw($key));
+        return ! $this->isEmpty($this->getRaw($key));
     }
 
     public function values()
     {
         return $this->values;
+    }
+
+    private function isEmpty($value): bool {
+        return $value === null || $value === false || $value === '' || $value === [];
     }
 }
