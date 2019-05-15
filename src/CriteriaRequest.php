@@ -101,7 +101,7 @@ abstract class CriteriaRequest implements Criteria
         return [];
     }
 
-    private function parseLimit(): int
+    private function parseLimit(): ?int
     {
         $inputLimit = $this->request->input(static::LIMIT_KEY, static::LIMIT_DEFAULT);
 

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Digbang\Utils\CriteriaRequest;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 if (! function_exists('array_add')) {
     /**
@@ -595,5 +599,40 @@ if (! function_exists('title_case')) {
     function title_case($value)
     {
         return Str::title($value);
+    }
+}
+
+if (!function_exists('adapt_paginator')) {
+    /**
+     * Generate paginator compatible with Fractal
+     *
+     * @param $paginator
+     * @param CriteriaRequest $request
+     *
+     * @return IlluminatePaginatorAdapter
+     */
+    function adapt_paginator(Paginator $paginator, CriteriaRequest $request): IlluminatePaginatorAdapter
+    {
+        $options = [
+            'path' => $request->getRequest()->url(),
+            'query' => $request->getRequest()->query(),
+        ];
+
+        $limit = $request->getPaginationData()->getLimit();
+
+        $paginator
+            ->getQuery()
+            ->setMaxResults($limit)
+            ->setFirstResult(($request->getPaginationData()->getPage() - 1) * $limit);
+
+        return new IlluminatePaginatorAdapter(
+            new LengthAwarePaginator(
+                $paginator,
+                $paginator->count(),
+                $limit,
+                $request->getPaginationData()->getPage(),
+                $options
+            )
+        );
     }
 }
