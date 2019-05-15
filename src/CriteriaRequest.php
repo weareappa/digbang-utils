@@ -81,10 +81,10 @@ abstract class CriteriaRequest implements Criteria
 
     public function getPaginationData(): PaginationData
     {
-        return new PaginationData(
-            $this->request->input(static::LIMIT_KEY, static::LIMIT_DEFAULT),
-            $this->request->input(static::PAGE_KEY, 1)
-        );
+        $limit = $this->parseLimit();
+        $page = $this->parsePage();
+
+        return new PaginationData($limit, $page);
     }
 
     abstract protected function getFilterClass(): string;
@@ -99,5 +99,30 @@ abstract class CriteriaRequest implements Criteria
     protected function getSortingDefaults(): array
     {
         return [];
+    }
+
+    private function parseLimit(): int
+    {
+        $inputLimit = $this->request->input(static::LIMIT_KEY, static::LIMIT_DEFAULT);
+
+        if ($inputLimit !== null && empty($inputLimit)) {
+            return null;
+        }
+
+        if (is_numeric($inputLimit)) {
+            return $inputLimit < 1 ? static::LIMIT_DEFAULT : (int) $inputLimit;
+        }
+
+        return static::LIMIT_DEFAULT;
+    }
+
+    private function parsePage(): int
+    {
+        $page = (int) $this->request->input(static::PAGE_KEY, 1);
+        if (!is_numeric($page) || empty($page)) {
+            return 1;
+        }
+
+        return $page;
     }
 }
