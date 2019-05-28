@@ -87,6 +87,14 @@ abstract class CriteriaRequest implements Criteria
         return new PaginationData($limit, $page);
     }
 
+    public function validate(): void
+    {
+        $this->request->validate([
+            static::SORT_KEY => 'sometimes|array',
+            static::SORT_KEY . '.*' => 'in:asc,desc,ASC,DESC',
+        ]);
+    }
+
     abstract protected function getFilterClass(): string;
 
     abstract protected function getSortingClass(): string;
