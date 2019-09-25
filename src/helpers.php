@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Digbang\Utils\CriteriaRequest;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 if (! function_exists('array_add')) {
@@ -14,6 +14,7 @@ if (! function_exists('array_add')) {
      * @param  array  $array
      * @param  string  $key
      * @param  mixed  $value
+     *
      * @return array
      */
     function array_add($array, $key, $value)
@@ -27,6 +28,7 @@ if (! function_exists('array_collapse')) {
      * Collapse an array of arrays into a single array.
      *
      * @param  array  $array
+     *
      * @return array
      */
     function array_collapse($array)
@@ -40,6 +42,7 @@ if (! function_exists('array_divide')) {
      * Divide an array into two arrays. One with keys and the other with values.
      *
      * @param  array  $array
+     *
      * @return array
      */
     function array_divide($array)
@@ -54,6 +57,7 @@ if (! function_exists('array_dot')) {
      *
      * @param  array  $array
      * @param  string  $prepend
+     *
      * @return array
      */
     function array_dot($array, $prepend = '')
@@ -68,6 +72,7 @@ if (! function_exists('array_except')) {
      *
      * @param  array  $array
      * @param  array|string  $keys
+     *
      * @return array
      */
     function array_except($array, $keys)
@@ -83,6 +88,7 @@ if (! function_exists('array_first')) {
      * @param  array  $array
      * @param  callable|null  $callback
      * @param  mixed  $default
+     *
      * @return mixed
      */
     function array_first($array, callable $callback = null, $default = null)
@@ -97,6 +103,7 @@ if (! function_exists('array_flatten')) {
      *
      * @param  array  $array
      * @param  int  $depth
+     *
      * @return array
      */
     function array_flatten($array, $depth = INF)
@@ -111,7 +118,6 @@ if (! function_exists('array_forget')) {
      *
      * @param  array  $array
      * @param  array|string  $keys
-     * @return void
      */
     function array_forget(&$array, $keys)
     {
@@ -126,6 +132,7 @@ if (! function_exists('array_get')) {
      * @param  \ArrayAccess|array  $array
      * @param  string  $key
      * @param  mixed  $default
+     *
      * @return mixed
      */
     function array_get($array, $key, $default = null)
@@ -140,6 +147,7 @@ if (! function_exists('array_has')) {
      *
      * @param  \ArrayAccess|array  $array
      * @param  string|array  $keys
+     *
      * @return bool
      */
     function array_has($array, $keys)
@@ -155,6 +163,7 @@ if (! function_exists('array_last')) {
      * @param  array  $array
      * @param  callable|null  $callback
      * @param  mixed  $default
+     *
      * @return mixed
      */
     function array_last($array, callable $callback = null, $default = null)
@@ -169,6 +178,7 @@ if (! function_exists('array_only')) {
      *
      * @param  array  $array
      * @param  array|string  $keys
+     *
      * @return array
      */
     function array_only($array, $keys)
@@ -184,6 +194,7 @@ if (! function_exists('array_pluck')) {
      * @param  array  $array
      * @param  string|array  $value
      * @param  string|array|null  $key
+     *
      * @return array
      */
     function array_pluck($array, $value, $key = null)
@@ -199,6 +210,7 @@ if (! function_exists('array_prepend')) {
      * @param  array  $array
      * @param  mixed  $value
      * @param  mixed  $key
+     *
      * @return array
      */
     function array_prepend($array, $value, $key = null)
@@ -214,6 +226,7 @@ if (! function_exists('array_pull')) {
      * @param  array  $array
      * @param  string  $key
      * @param  mixed  $default
+     *
      * @return mixed
      */
     function array_pull(&$array, $key, $default = null)
@@ -228,6 +241,7 @@ if (! function_exists('array_random')) {
      *
      * @param  array  $array
      * @param  int|null  $num
+     *
      * @return mixed
      */
     function array_random($array, $num = null)
@@ -245,6 +259,7 @@ if (! function_exists('array_set')) {
      * @param  array  $array
      * @param  string  $key
      * @param  mixed  $value
+     *
      * @return array
      */
     function array_set(&$array, $key, $value)
@@ -259,6 +274,7 @@ if (! function_exists('array_sort')) {
      *
      * @param  array  $array
      * @param  callable|string|null  $callback
+     *
      * @return array
      */
     function array_sort($array, $callback = null)
@@ -272,6 +288,7 @@ if (! function_exists('array_sort_recursive')) {
      * Recursively sort an array by keys and values.
      *
      * @param  array  $array
+     *
      * @return array
      */
     function array_sort_recursive($array)
@@ -286,6 +303,7 @@ if (! function_exists('array_where')) {
      *
      * @param  array  $array
      * @param  callable  $callback
+     *
      * @return array
      */
     function array_where($array, callable $callback)
@@ -299,6 +317,7 @@ if (! function_exists('array_wrap')) {
      * If the given value is not an array, wrap it in one.
      *
      * @param  mixed  $value
+     *
      * @return array
      */
     function array_wrap($value)
@@ -312,6 +331,7 @@ if (! function_exists('camel_case')) {
      * Convert a value to camel case.
      *
      * @param  string  $value
+     *
      * @return string
      */
     function camel_case($value)
@@ -326,6 +346,7 @@ if (! function_exists('ends_with')) {
      *
      * @param  string  $haystack
      * @param  string|array  $needles
+     *
      * @return bool
      */
     function ends_with($haystack, $needles)
@@ -339,6 +360,7 @@ if (! function_exists('kebab_case')) {
      * Convert a string to kebab case.
      *
      * @param  string  $value
+     *
      * @return string
      */
     function kebab_case($value)
@@ -353,6 +375,7 @@ if (! function_exists('snake_case')) {
      *
      * @param  string  $value
      * @param  string  $delimiter
+     *
      * @return string
      */
     function snake_case($value, $delimiter = '_')
@@ -367,6 +390,7 @@ if (! function_exists('starts_with')) {
      *
      * @param  string  $haystack
      * @param  string|array  $needles
+     *
      * @return bool
      */
     function starts_with($haystack, $needles)
@@ -381,6 +405,7 @@ if (! function_exists('str_after')) {
      *
      * @param  string  $subject
      * @param  string  $search
+     *
      * @return string
      */
     function str_after($subject, $search)
@@ -395,6 +420,7 @@ if (! function_exists('str_before')) {
      *
      * @param  string  $subject
      * @param  string  $search
+     *
      * @return string
      */
     function str_before($subject, $search)
@@ -409,6 +435,7 @@ if (! function_exists('str_contains')) {
      *
      * @param  string  $haystack
      * @param  string|array  $needles
+     *
      * @return bool
      */
     function str_contains($haystack, $needles)
@@ -423,6 +450,7 @@ if (! function_exists('str_finish')) {
      *
      * @param  string  $value
      * @param  string  $cap
+     *
      * @return string
      */
     function str_finish($value, $cap)
@@ -437,6 +465,7 @@ if (! function_exists('str_is')) {
      *
      * @param  string|array  $pattern
      * @param  string  $value
+     *
      * @return bool
      */
     function str_is($pattern, $value)
@@ -452,6 +481,7 @@ if (! function_exists('str_limit')) {
      * @param  string  $value
      * @param  int  $limit
      * @param  string  $end
+     *
      * @return string
      */
     function str_limit($value, $limit = 100, $end = '...')
@@ -466,6 +496,7 @@ if (! function_exists('str_plural')) {
      *
      * @param  string  $value
      * @param  int  $count
+     *
      * @return string
      */
     function str_plural($value, $count = 2)
@@ -479,9 +510,10 @@ if (! function_exists('str_random')) {
      * Generate a more truly "random" alpha-numeric string.
      *
      * @param  int  $length
-     * @return string
      *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     function str_random($length = 16)
     {
@@ -496,6 +528,7 @@ if (! function_exists('str_replace_array')) {
      * @param  string  $search
      * @param  array  $replace
      * @param  string  $subject
+     *
      * @return string
      */
     function str_replace_array($search, array $replace, $subject)
@@ -511,6 +544,7 @@ if (! function_exists('str_replace_first')) {
      * @param  string  $search
      * @param  string  $replace
      * @param  string  $subject
+     *
      * @return string
      */
     function str_replace_first($search, $replace, $subject)
@@ -526,6 +560,7 @@ if (! function_exists('str_replace_last')) {
      * @param  string  $search
      * @param  string  $replace
      * @param  string  $subject
+     *
      * @return string
      */
     function str_replace_last($search, $replace, $subject)
@@ -539,6 +574,7 @@ if (! function_exists('str_singular')) {
      * Get the singular form of an English word.
      *
      * @param  string  $value
+     *
      * @return string
      */
     function str_singular($value)
@@ -554,6 +590,7 @@ if (! function_exists('str_slug')) {
      * @param  string  $title
      * @param  string  $separator
      * @param  string  $language
+     *
      * @return string
      */
     function str_slug($title, $separator = '-', $language = 'en')
@@ -568,6 +605,7 @@ if (! function_exists('str_start')) {
      *
      * @param  string  $value
      * @param  string  $prefix
+     *
      * @return string
      */
     function str_start($value, $prefix)
@@ -581,6 +619,7 @@ if (! function_exists('studly_case')) {
      * Convert a value to studly caps case.
      *
      * @param  string  $value
+     *
      * @return string
      */
     function studly_case($value)
@@ -594,6 +633,7 @@ if (! function_exists('title_case')) {
      * Convert a value to title case.
      *
      * @param  string  $value
+     *
      * @return string
      */
     function title_case($value)
@@ -602,9 +642,9 @@ if (! function_exists('title_case')) {
     }
 }
 
-if (!function_exists('adapt_paginator')) {
+if (! function_exists('adapt_paginator')) {
     /**
-     * Generate paginator compatible with Fractal
+     * Generate paginator compatible with Fractal.
      *
      * @param $paginator
      * @param CriteriaRequest $request

@@ -11,4 +11,3 @@ class ProductSortingStub extends Sorting
     const OTHER = 'other';
     const INVERTED = 'inverted';
 }
-

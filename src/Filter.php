@@ -54,7 +54,8 @@ abstract class Filter
         return $this->values;
     }
 
-    private function isEmpty($value): bool {
+    private function isEmpty($value): bool
+    {
         return $value === null || $value === false || $value === '' || $value === [];
     }
 }

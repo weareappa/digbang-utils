@@ -127,7 +127,7 @@ abstract class CriteriaRequest implements Criteria
     private function parsePage(): int
     {
         $page = (int) $this->request->input(static::PAGE_KEY, 1);
-        if (!is_numeric($page) || empty($page)) {
+        if (! is_numeric($page) || empty($page)) {
             return 1;
         }
 

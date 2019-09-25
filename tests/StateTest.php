@@ -38,6 +38,7 @@ class StateTest extends TestCase
         $state = new StateImplementation(StateImplementation::STEP_1);
         $state = $state->transition(StateImplementation::STEP_2);
         $state->transition(StateImplementation::STEP_4);
+        $this->assertEquals($state->getValue(), StateImplementation::STEP_2);
     }
 
     public function test_get_possible_states_transitions_for()
@@ -70,7 +71,7 @@ class StateImplementation extends State
     const STEP_2 = 'Paso2';
     const STEP_3 = 'Paso3';
     const STEP_4 = 'Paso4';
-    
+
     const TRANSITIONS = [
         StateImplementation::STEP_1 => [
             StateImplementation::STEP_2,
@@ -79,6 +80,6 @@ class StateImplementation extends State
     ];
 
     const INITIAL = [
-        StateImplementation::STEP_1
+        StateImplementation::STEP_1,
     ];
 }

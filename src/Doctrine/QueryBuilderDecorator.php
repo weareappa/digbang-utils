@@ -57,6 +57,7 @@ class QueryBuilderDecorator extends QueryBuilder
         foreach ($sorting->get($sortOptions) as $sortBy => $sortSense) {
             $this->addOrderBy($sortBy, $sortSense);
         }
+
         return $this;
     }
 
@@ -84,7 +85,7 @@ class QueryBuilderDecorator extends QueryBuilder
      *   'aliasJoinA' => 'alias.fieldA',
      *   'aliasJoinB' => 'alias.fieldB',
      *   'aliasJoinC' => 'aliasJoinA.fieldA',
-     * ]
+     * ].
      *
      * @param array $joins
      * @param array|null $leftJoins

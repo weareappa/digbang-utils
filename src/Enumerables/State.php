@@ -15,7 +15,7 @@ abstract class State extends Enum
 
     public function __construct($value = null)
     {
-        if(! in_array($value, static::INITIAL, true)) {
+        if (! in_array($value, static::INITIAL, true)) {
             throw new \InvalidArgumentException('State can\'t initiate from ' . $value);
         }
 
@@ -52,7 +52,7 @@ abstract class State extends Enum
 
     public function canTransition(string $to): bool
     {
-        if($this->getPossibleTransitions() === null) {
+        if ($this->getPossibleTransitions() === null) {
             return true;
         }
 
