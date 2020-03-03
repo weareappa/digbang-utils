@@ -1,5 +1,3 @@
-[![Build Status](https://semaphoreci.com/api/v1/jfalcondb/utils/branches/master/badge.svg)](https://semaphoreci.com/jfalcondb/utils)
-
 # digbang/utils
 An utility belt for your Laravel projects
 
