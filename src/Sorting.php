@@ -52,6 +52,11 @@ class Sorting
         return $this->sorts;
     }
 
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->sorts);
+    }
+
     private static function getKeys(): array
     {
         $oClass = new \ReflectionClass(get_called_class());
