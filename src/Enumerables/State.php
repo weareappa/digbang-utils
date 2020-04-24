@@ -31,7 +31,7 @@ abstract class State extends Enum
 
     public function transition(string $to, $notes = null): self
     {
-        $this->assert($to);
+        self::assert($to);
 
         if (! $this->canTransition($to)) {
             throw new \InvalidArgumentException('State can\'t transition from ' . $this->getValue() . ' to ' . $to);
@@ -83,5 +83,14 @@ abstract class State extends Enum
     public function getLog(): array
     {
         return $this->log;
+    }
+
+    public function hasBeenAtState(string $state): bool
+    {
+        $states = array_map(function (array $item) {
+            return $item['to'];
+        }, $this->log);
+
+        return in_array($state, $states, true);
     }
 }
