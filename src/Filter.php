@@ -39,6 +39,24 @@ abstract class Filter
         return $this->isEmpty($value) ? [] : $value;
     }
 
+    /**
+     * Returns (bool) false on falsy values. Null on empty. True otherwise.
+     */
+    public function getBoolean(string $key, $default = null)
+    {
+        $value = $this->getRaw($key);
+
+        if (! $this->isEmpty($value)) {
+            if ($value === false || $value === 'false' || $value === '0' || $value === 0) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return null;
+    }
+
     public function has(string $key)
     {
         return array_has($this->values, $key);
