@@ -77,7 +77,7 @@ abstract class Enum extends EnumBase
 
     protected static function assert(string $name = null)
     {
-        if (! in_array($name, static::getAllValues(), true)) {
+        if (! in_array($name, static::getAllValues(), false)) {
             $oClass = new \ReflectionClass(get_called_class());
 
             throw new \InvalidArgumentException('enum.' . camel_case($oClass->getShortName()) . '.notFound');
