@@ -291,7 +291,7 @@ class QueryBuilderDecorator extends QueryBuilder
      *
      * @return bool
      */
-    protected function isJoined(string $alias, string $joinType): bool
+    private function isJoined(string $alias, string $joinType): bool
     {
         /** @var Join[] $joins */
         $joins = collect($this->getDQLPart('join'))->flatten();
@@ -322,7 +322,7 @@ class QueryBuilderDecorator extends QueryBuilder
      *
      * @return QueryBuilderDecorator
      */
-    protected function mergeJoinConditions(string $alias, ?string $conditionType = Join::WITH, $condition = null): self
+    private function mergeJoinConditions(string $alias, ?string $conditionType = Join::WITH, $condition = null): self
     {
         if (is_null($condition)) {
             return $this;
@@ -335,18 +335,19 @@ class QueryBuilderDecorator extends QueryBuilder
                     continue;
                 }
 
-                if (is_null($join->getConditionType()) || $join->getConditionType() === $conditionType) {
-                    $joins[$index] = new Join(
-                        $join->getJoinType(),
-                        $join->getJoin(),
-                        $join->getAlias(),
-                        $conditionType,
-                        (string)$this->expr()->andX($join->getCondition(), $condition),
-                        $join->getIndexBy()
-                    );
+                $newConditionType = in_array(Join::ON, [$join->getConditionType(), $conditionType]) ? Join::ON : Join::WITH;
+                $newCondition = $this->expr()->andX($join->getCondition(), $condition);
 
-                    return $this->add('join', [$key => $joins], false);
-                }
+                $joins[$index] = new Join(
+                    $join->getJoinType(),
+                    $join->getJoin(),
+                    $join->getAlias(),
+                    $newConditionType,
+                    $newCondition,
+                    $join->getIndexBy()
+                );
+
+                return $this->add('join', [$key => $joins], false);
             }
         }
 
