@@ -27,18 +27,16 @@ class QueryBuilderDecorator extends QueryBuilder
      */
     public function from($from, $alias, $indexBy = null)
     {
-        $normalizedAlias = $this->normalizeAlias($alias);
-        $this->assertHasOneAlias($normalizedAlias);
-        $firstAlias = $normalizedAlias->first();
+        $singleAlias = $this->getSingleAlias($alias);
 
-        /** @var From $_from */
-        foreach ($this->getDQLPart('from') as $_from) {
-            if (($_from->getAlias() === $firstAlias) && ($_from->getFrom() !== $from)) {
-                throw new \InvalidArgumentException("Duplicated FROM alias: $firstAlias.");
+        /** @var From $part */
+        foreach ($this->getDQLPart('from') as $part) {
+            if (($part->getAlias() === $singleAlias) && ($part->getFrom() !== $from)) {
+                throw new \InvalidArgumentException("Duplicated FROM alias: $singleAlias.");
             }
         }
 
-        return parent::from($from, $firstAlias, $indexBy);
+        return parent::from($from, $singleAlias, $indexBy);
     }
 
     /**
@@ -61,14 +59,15 @@ class QueryBuilderDecorator extends QueryBuilder
         $normalizedSelects = $this->normalizeAlias($selects);
         $dqlSelectParts = collect();
 
-        /** @var Select $_select */
-        foreach ($this->getDQLPart('select') as $_select) {
-            $dqlSelectParts = $dqlSelectParts->merge($this->normalizeAlias($_select->getParts()));
+        /** @var Select $part */
+        foreach ($this->getDQLPart('select') as $part) {
+            $dqlSelectParts = $dqlSelectParts->merge($this->normalizeAlias($part->getParts()));
         }
 
-        $newSelects = $normalizedSelects->diff($dqlSelectParts);
-
-        return parent::addSelect($newSelects->toArray());
+        return parent::addSelect($normalizedSelects
+            ->diff($dqlSelectParts)
+            ->toArray()
+        );
     }
 
     /**
@@ -78,15 +77,13 @@ class QueryBuilderDecorator extends QueryBuilder
      */
     public function innerJoin($join, $alias, $conditionType = null, $condition = null, $indexBy = null)
     {
-        $normalizedAlias = $this->normalizeAlias($alias);
-        $this->assertHasOneAlias($normalizedAlias);
-        $firstAlias = $normalizedAlias->first();
+        $singleAlias = $this->getSingleAlias($alias);
 
-        if ($this->isJoined($alias, Join::INNER_JOIN)) {
-            return $this->mergeJoinConditions($alias, $conditionType, $condition);
+        if ($this->isJoined($singleAlias, Join::INNER_JOIN)) {
+            return $this->mergeJoinConditions($singleAlias, $conditionType, $condition);
         }
 
-        return parent::innerJoin($join, $firstAlias, $conditionType, $condition, $indexBy);
+        return parent::innerJoin($join, $singleAlias, $conditionType, $condition, $indexBy);
     }
 
     /**
@@ -96,36 +93,13 @@ class QueryBuilderDecorator extends QueryBuilder
      */
     public function leftJoin($join, $alias, $conditionType = null, $condition = null, $indexBy = null)
     {
-        $normalizedAlias = $this->normalizeAlias($alias);
-        $this->assertHasOneAlias($normalizedAlias);
-        $firstAlias = $normalizedAlias->first();
+        $singleAlias = $this->getSingleAlias($alias);
 
-        if ($this->isJoined($alias, Join::LEFT_JOIN)) {
-            return $this->mergeJoinConditions($alias, $conditionType, $condition);
+        if ($this->isJoined($singleAlias, Join::LEFT_JOIN)) {
+            return $this->mergeJoinConditions($singleAlias, $conditionType, $condition);
         }
 
-        return parent::leftJoin($join, $firstAlias, $conditionType, $condition, $indexBy);
-    }
-
-    /**
-     * Pre: Receive a value and a callback.
-     *
-     * Post: Execute the callback if the given value is not null.
-     *
-     * @param mixed $value
-     * @param \Closure $callback
-     *
-     * @return QueryBuilderDecorator
-     */
-    public function when($value, \Closure $callback): self
-    {
-        if (is_null($value)) {
-            return $this;
-        }
-
-        $callback->__invoke($this, $value);
-
-        return $this;
+        return parent::leftJoin($join, $singleAlias, $conditionType, $condition, $indexBy);
     }
 
     /**
@@ -140,6 +114,8 @@ class QueryBuilderDecorator extends QueryBuilder
      *      'actualFieldDefinitionForThatKey'
      *    ]
      * ].
+     *
+     * @deprecated
      *
      * @param Sorting $sorting
      * @param array $sortOptions
@@ -158,6 +134,8 @@ class QueryBuilderDecorator extends QueryBuilder
     /**
      * Adds "order by" statement with raw PaginationData sorting values
      * Returns true if order by was added.
+     *
+     * @deprecated
      *
      * @param Sorting $sorting
      *
@@ -181,6 +159,8 @@ class QueryBuilderDecorator extends QueryBuilder
      *   'aliasJoinC' => 'aliasJoinA.fieldA',
      * ].
      *
+     * @deprecated
+     *
      * @param array $joins
      * @param array|null $leftJoins
      *
@@ -203,6 +183,8 @@ class QueryBuilderDecorator extends QueryBuilder
 
     /**
      * Adds "andWhere's" statements for each filter.
+     *
+     * @deprecated
      *
      * @param array $filters
      *
@@ -263,19 +245,25 @@ class QueryBuilderDecorator extends QueryBuilder
     }
 
     /**
-     * Pre: Receive an alias collection
+     * Pre: Receive an alias
      *
-     * Post: Throw an \InvalidArgumentException if the alias is empty or has more than one alias
+     * Post: Return the first normalized alias if it has only one, otherwise thrown an \InvalidArgumentException if the alias is empty or has more than one alias
      *
-     * @param Collection $alias
+     * @param null|string|array $alias
      *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
-    private function assertHasOneAlias(Collection $alias): void
+    private function getSingleAlias($alias): string
     {
-        if ($alias->count() != 1) {
-            throw new \InvalidArgumentException("There should be one alias on the current context.");
+        $normalizedAlias = $this->normalizeAlias($alias);
+
+        if ($normalizedAlias->count() != 1) {
+            throw new \InvalidArgumentException('There should be one alias on the current context.');
         }
+
+        return $normalizedAlias->first();
     }
 
     /**
