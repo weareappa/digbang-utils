@@ -114,14 +114,18 @@ class QueryBuilderDecorator extends QueryBuilder
      *
      * @param mixed $value
      * @param \Closure $callback
+     *
+     * @return QueryBuilderDecorator
      */
-    public function when($value, \Closure $callback): void
+    public function when($value, \Closure $callback): self
     {
         if (is_null($value)) {
-            return;
+            return $this;
         }
 
         $callback->__invoke($this, $value);
+
+        return $this;
     }
 
     /**
