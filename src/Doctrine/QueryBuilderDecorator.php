@@ -108,6 +108,23 @@ class QueryBuilderDecorator extends QueryBuilder
     }
 
     /**
+     * Pre: Receive a value and a callback.
+     *
+     * Post: Execute the callback if the given value is not null.
+     *
+     * @param mixed $value
+     * @param \Closure $callback
+     */
+    public function when($value, \Closure $callback): void
+    {
+        if (is_null($value)) {
+            return;
+        }
+
+        $callback->__invoke($this, $value);
+    }
+
+    /**
      * Adds "order by" statement if sort is found in sortOptions.
      * Returns true if order by was added.
      * sortOptions example:
