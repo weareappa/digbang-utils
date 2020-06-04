@@ -6,6 +6,7 @@ use Digbang\Utils\Sorting;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Expr\From;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Query\Expr\Select;
 use Doctrine\ORM\QueryBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -58,11 +59,12 @@ class QueryBuilderDecorator extends QueryBuilder
     {
         $selects = is_array($select) ? $select : func_get_args();
         $normalizedSelects = $this->normalizeAlias($selects);
+        $dqlSelectParts = collect();
 
-        /** @var Collection $dqlSelectParts */
-        $dqlSelectParts = collect($this->getDQLPart('select'))
-            ->flatMap
-            ->getParts();
+        /** @var Select $_select */
+        foreach ($this->getDQLPart('select') as $_select) {
+            $dqlSelectParts = $dqlSelectParts->merge($this->normalizeAlias($_select->getParts()));
+        }
 
         $newSelects = $normalizedSelects->diff($dqlSelectParts);
 
