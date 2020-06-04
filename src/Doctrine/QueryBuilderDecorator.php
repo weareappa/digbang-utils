@@ -31,7 +31,7 @@ class QueryBuilderDecorator extends QueryBuilder
 
         /** @var From $part */
         foreach ($this->getDQLPart('from') as $part) {
-            if (($part->getAlias() === $singleAlias) && ($part->getFrom() !== $from)) {
+            if ($part->getAlias() === $singleAlias && $part->getFrom() !== $from) {
                 throw new \InvalidArgumentException("Duplicated FROM alias: $singleAlias.");
             }
         }
@@ -115,8 +115,6 @@ class QueryBuilderDecorator extends QueryBuilder
      *    ]
      * ].
      *
-     * @deprecated
-     *
      * @param Sorting $sorting
      * @param array $sortOptions
      *
@@ -134,8 +132,6 @@ class QueryBuilderDecorator extends QueryBuilder
     /**
      * Adds "order by" statement with raw PaginationData sorting values
      * Returns true if order by was added.
-     *
-     * @deprecated
      *
      * @param Sorting $sorting
      *
@@ -183,8 +179,6 @@ class QueryBuilderDecorator extends QueryBuilder
 
     /**
      * Adds "andWhere's" statements for each filter.
-     *
-     * @deprecated
      *
      * @param array $filters
      *
@@ -259,7 +253,7 @@ class QueryBuilderDecorator extends QueryBuilder
     {
         $normalizedAlias = $this->normalizeAlias($alias);
 
-        if ($normalizedAlias->count() != 1) {
+        if ($normalizedAlias->count() !== 1) {
             throw new \InvalidArgumentException('There should be one alias on the current context.');
         }
 
