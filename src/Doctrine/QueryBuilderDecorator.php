@@ -45,9 +45,11 @@ class QueryBuilderDecorator extends QueryBuilder
     public function select($select = null)
     {
         $selects = is_array($select) ? $select : func_get_args();
-        $normalizedSelects = $this->normalizeAlias($selects);
 
-        return parent::select($normalizedSelects->toArray());
+        return parent::select(collect($selects)
+            ->unique()
+            ->toArray()
+        );
     }
 
     /**
@@ -56,15 +58,17 @@ class QueryBuilderDecorator extends QueryBuilder
     public function addSelect($select = null)
     {
         $selects = is_array($select) ? $select : func_get_args();
-        $normalizedSelects = $this->normalizeAlias($selects);
         $dqlSelectParts = collect();
 
         /** @var Select $part */
         foreach ($this->getDQLPart('select') as $part) {
-            $dqlSelectParts = $dqlSelectParts->merge($this->normalizeAlias($part->getParts()));
+            foreach ($part->getParts() as $element) {
+                $dqlSelectParts->add($element);
+            }
         }
 
-        return parent::addSelect($normalizedSelects
+        return parent::addSelect(collect($selects)
+            ->unique()
             ->diff($dqlSelectParts)
             ->toArray()
         );
