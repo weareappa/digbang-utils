@@ -11,7 +11,8 @@ class EventStackerTrait
 
     public function fireEvents(Dispatcher $dispatcher): void
     {
-        foreach ($this->eventStack as $event) {
+        while (count($this->eventStack) > 0) {
+            $event = $this->pullEvent();
             $dispatcher->dispatch($event);
         }
     }
@@ -27,6 +28,13 @@ class EventStackerTrait
             throw new \InvalidArgumentException('Event must be an object');
         }
 
-        $this->eventStack[] = $event;
+        $this->eventStack[get_class($event)] = $event;
+    }
+
+    final protected function pushEvents(array $events): void
+    {
+        foreach ($events as $event) {
+            $this->pushEvent($event);
+        }
     }
 }
