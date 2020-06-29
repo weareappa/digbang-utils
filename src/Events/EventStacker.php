@@ -7,7 +7,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 trait EventStacker
 {
     /** @var array */
-    protected $eventStack;
+    protected $eventStack = [];
 
     public function fireEvents(Dispatcher $dispatcher): void
     {

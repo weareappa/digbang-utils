@@ -2,7 +2,6 @@
 
 namespace Digbang\Utils\Doctrine\Mappings\Embeddables;
 
-use LaravelDoctrine\Fluent\Builders\Field;
 use LaravelDoctrine\Fluent\EmbeddableMapping;
 use LaravelDoctrine\Fluent\Fluent;
 
@@ -16,9 +15,7 @@ abstract class StateMapping extends EmbeddableMapping
     public function map(Fluent $builder)
     {
         $builder->text('value');
-        $builder->jsonArray('log', function (Field $field) {
-            $field->option('jsonb', true);
-        });
+        $builder->jsonArray('log')->option('jsonb', true);
     }
 
     abstract public function mapFor();
