@@ -46,11 +46,6 @@ class QueryBuilderDecorator extends QueryBuilder
      *      'actualFieldDefinitionForThatKey'
      *    ]
      * ].
-     *
-     * @param Sorting $sorting
-     * @param array $sortOptions
-     *
-     * @return QueryBuilderDecorator
      */
     public function addSorting(Sorting $sorting, array $sortOptions): QueryBuilderDecorator
     {
@@ -64,10 +59,6 @@ class QueryBuilderDecorator extends QueryBuilder
     /**
      * Adds "order by" statement with raw PaginationData sorting values
      * Returns true if order by was added.
-     *
-     * @param Sorting $sorting
-     *
-     * @return QueryBuilderDecorator
      */
     public function addRawSorting(Sorting $sorting): QueryBuilderDecorator
     {
@@ -86,11 +77,6 @@ class QueryBuilderDecorator extends QueryBuilder
      *   'aliasJoinB' => 'alias.fieldB',
      *   'aliasJoinC' => 'aliasJoinA.fieldA',
      * ].
-     *
-     * @param array $joins
-     * @param array|null $leftJoins
-     *
-     * @return QueryBuilderDecorator
      */
     public function applyJoins(array $joins, array $leftJoins = null): QueryBuilderDecorator
     {
@@ -109,10 +95,6 @@ class QueryBuilderDecorator extends QueryBuilder
 
     /**
      * Adds "andWhere's" statements for each filter.
-     *
-     * @param array $filters
-     *
-     * @return QueryBuilderDecorator
      */
     public function applyFilters(array $filters): QueryBuilderDecorator
     {

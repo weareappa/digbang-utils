@@ -1,11 +1,7 @@
 <?php
 
-use Digbang\Utils\CriteriaRequest;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 if (! function_exists('array_add')) {
     /**
@@ -86,7 +82,6 @@ if (! function_exists('array_first')) {
      * Return the first element in an array passing a given truth test.
      *
      * @param  array  $array
-     * @param  callable|null  $callback
      * @param  mixed  $default
      *
      * @return mixed
@@ -161,7 +156,6 @@ if (! function_exists('array_last')) {
      * Return the last element in an array passing a given truth test.
      *
      * @param  array  $array
-     * @param  callable|null  $callback
      * @param  mixed  $default
      *
      * @return mixed
@@ -302,7 +296,6 @@ if (! function_exists('array_where')) {
      * Filter the array using the given callback.
      *
      * @param  array  $array
-     * @param  callable  $callback
      *
      * @return array
      */
@@ -526,7 +519,6 @@ if (! function_exists('str_replace_array')) {
      * Replace a given value in the string sequentially with an array.
      *
      * @param  string  $search
-     * @param  array  $replace
      * @param  string  $subject
      *
      * @return string
@@ -641,4 +633,3 @@ if (! function_exists('title_case')) {
         return Str::title($value);
     }
 }
-

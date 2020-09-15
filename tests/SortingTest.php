@@ -9,7 +9,7 @@ class SortingTest extends TestCase
     private $alias;
     private $sortFields;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->alias = 'alias';
 

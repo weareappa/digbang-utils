@@ -45,8 +45,6 @@ class PaginationData
 
     /**
      * Set the page according to current limit.
-     *
-     * @param int $offset
      */
     public function setPageFromOffset(int $offset)
     {
