@@ -109,7 +109,7 @@ abstract class CriteriaRequest implements Criteria
         return [];
     }
 
-    private function parseLimit(): ?int
+    protected function parseLimit(): ?int
     {
         $inputLimit = $this->request->input(static::LIMIT_KEY, static::LIMIT_DEFAULT);
 
@@ -124,7 +124,7 @@ abstract class CriteriaRequest implements Criteria
         return static::LIMIT_DEFAULT;
     }
 
-    private function parsePage(): int
+    protected function parsePage(): int
     {
         $page = (int) $this->request->input(static::PAGE_KEY, 1);
         if (! is_numeric($page) || empty($page)) {
