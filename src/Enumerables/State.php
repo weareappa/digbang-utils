@@ -93,4 +93,33 @@ abstract class State extends Enum
 
         return in_array($state, $states, true);
     }
+
+    public static function getAllValues(): array
+    {
+        $oClass = new \ReflectionClass(get_called_class());
+
+        return array_values(array_filter(
+            $oClass->getConstants(),
+            function ($constant): bool {
+                return $constant !== 'INITIAL' && $constant !== 'TRANSITIONS';
+            },
+            ARRAY_FILTER_USE_KEY
+        ));
+    }
+
+    public static function getAllValuesTranslated(): array
+    {
+        $oClass = get_called_class();
+        $values = static::getAllValues();
+
+        return array_combine(
+            $values,
+            array_map(
+                function (string $value) use ($oClass) {
+                    return (string) trans("enum.$oClass.$value");
+                },
+                $values
+            )
+        );
+    }
 }
