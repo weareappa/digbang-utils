@@ -101,7 +101,13 @@ abstract class CriteriaRequest implements Criteria
 
     protected function buildSorting(): array
     {
-        return $this->request->input(static::SORT_KEY, []);
+        $sorting = $this->request->input(static::SORT_KEY, []);
+
+        if (! is_array($sorting)) {
+            return [$sorting => 'asc'];
+        }
+
+        return $sorting;
     }
 
     protected function getSortingDefaults(): array
