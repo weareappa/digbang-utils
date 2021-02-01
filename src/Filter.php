@@ -40,21 +40,21 @@ abstract class Filter
     }
 
     /**
-     * Returns (bool) false on falsy values. Null on empty. True otherwise.
+     * Returns (bool) false on false, 'false', 0 and '0' values. Null on empties (null, '' and []). True otherwise.
      */
     public function getBoolean(string $key, $default = null)
     {
         $value = $this->getRaw($key);
 
-        if (! $this->isEmpty($value)) {
-            if ($value === false || $value === 'false' || $value === '0' || $value === 0) {
-                return false;
-            }
-
-            return true;
+        if ($this->isEmpty($value) && $value !== false) {
+            return null;
         }
 
-        return null;
+        if ($value === false || $value === 'false' || $value === '0' || $value === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     public function has(string $key)
