@@ -13,14 +13,12 @@ class PaginatorAdapter
         if ($paginationData->getLimit()) {
             $query->setFirstResult($paginationData->getOffset());
             $query->setMaxResults($paginationData->getLimit());
-        }
 
-        $results = $this->getResults($query, $resultsAreScalar);
-
-        if ($paginationData->getLimit()) {
             $doctrinePaginator = new DoctrinePaginator($query, $fetchJoinCollection);
+            $results = iterator_to_array($doctrinePaginator);
             $count = $this->count($doctrinePaginator, $resultsAreScalar);
         } else {
+            $results = $this->getResults($query, $resultsAreScalar);
             $count = count($results);
             // if zero results, fake a limit so paging calculations don't explode with division by zero
             $paginationData = $paginationData->clone($count ?: 1, 1);
@@ -39,7 +37,7 @@ class PaginatorAdapter
     }
 
     /**
-     * @return float|int
+     * @return int
      */
     protected function count(DoctrinePaginator $doctrinePaginator, bool $resultsAreScalar = false)
     {
